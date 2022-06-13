@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/index.css">
+  <title>Pig-Game</title>
+</head>
+<body>
+  
+  <main class="main">
+    <h1 class="game-name">🎲 Pig Game 🎲</h1>
+    <div class="container">
+      <div class="container__btns">
+        <button class="container__btn" type="button">🐷 Pig game 🐷</button>
+        <button class="container__btn btn-rule" type="button">🤔 Rules 🤔</button>
+      </div>
+    <article class="game">
+      <!-- Player 1 -->
+      <div class="player player--0 player--active">
+        <canvas id="my-canvas"></canvas>
+        <span class="player__active-status"></span>
+        <span class="player__emoji">🙎</span>
+        <h2 class="player__name player__name--0">Sushant</h2>
+        <h3 class="player__score player__score--0">0</h3>
+        <div class="current current--0">
+          <p class="current__text">Current</p>
+          <h4 class="current__score current__score--0">0</h4>
+        </div>
+      </div>
+      <!-- Player 2 -->
+        <div class="player player--1">
+          <canvas id="my-canvas"></canvas>
+        <span class="player__active-status"></span>
+        <span class="player__emoji">👩‍🦱</span>
+        <h2 class="player__name player__name--1">Computer</h2>
+        <h3 class="player__score player__score--1">0</h3>
+        <div class="current current--1">
+          <p class="current__text">Current</p>
+          <h4 class="current__score current__score--1">0</h4>
+        </div>
+      </div>
+      <!-- Dice -->
+      <div class="dice">
+        <img class="dice__img hidden" src="images/dice-5.png" alt="dice" />
+        <h5 class="dice__text">🆚</h5>
+      </div>
+      <!-- Buttons -->
+      <div class="game__btns">
+      <button class="btn btn--hold" type="button">⏸️ Hold</button>
+      <button class="btn btn--roll" type="button">🎲 Roll</button>
+      <button class="btn btn--reset" type="button">🔄 Reset</button>
+      </div>
+    </article>
+    </div>
+  </main>
+  
+  <!-- Modal user data -->
+  <div class="modal-overlay"></div>
+  
+  <!-- User Modal -->
+  <div class="modal modal--user">
+    <p class="modal__text">
+     🙋 Welcome!! Please enter your <b>Name</b> and your <b>Opponent's</b> name
+    </p>
+    <form class="modal--form" action="#">
+      <div class="input-group">
+      <input type="text" class="modal__input first-player" placeholder="Your name" />
+      <input type="text" class="modal__input second-player" placeholder="Opponents name" />
+      </div>
+      <button class="modal__btn" id="user-btn" type="button">✅ Submit ✅</button>
+    </form>
+  </div>
+  
+  <!-- Rules Modal -->
+  <div class="modal modal--rules hidden">
+    <p class="modal__text">📖 Pleas read the rules listed below carefully!! 📖</p>
+    <ul class="rules">
+      <li class="rules__list">
+        The game has two players, playing in rounds
+      </li>
+      <li class="rules__list">
+        In each turn, a player rolls a dice as many times as he wants. Each result get added to his <b>Round</b> score.
+      </li>
+      <li class="rules__list">
+        BUT, if the player rolls a 1, all his <b>Round</b> score gets lost. After that it's the next player's turn.
+      </li>
+      <li class="rules__list">The player can choose to <b>'Hold'</b> which means his round score gets added to his <b>Global</b> score. After that it's the next player's turn.
+      </li>
+      <li class="rules__list">The first player to reach the entered points in <b>Global</b> score wins the game.</li>
+    </ul>
+    <button class="modal__btn" id="rules-btn" type="button">❎  Close  ❎</button>
+  </div>
+  
+	<!-- Custom Javascript -->
+  <script src="js/index.js"></script>
+  <script src="js/confetti.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    var confettiSettings = { target: 'my-canvas',clock: 75,props: ['circle', 'square', 'triangle', 'line'] };
+var confetti = new ConfettiGenerator(confettiSettings);
+confetti.render();
+  </script>
+</body>
+</html>
