@@ -1,0 +1,310 @@
+/****** Variables ******/
+:root {
+  /*** Fonts ***/
+  --ff-primary: 'Rubik', sans-serif;;
+  --ff-secondary: 'Josefin Sans', sans-serif;
+  /*** Colors ***/
+  --clr-primary: #F08A5D;
+  --clr-secondary: #B83B5E;
+  --clr-tertiary: #6A2C70;
+  --clr-white: #fff;
+  --clr-dark: #333;
+}
+/****** Reset Styles ******/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  text-decoration: none;
+  outline: none;
+}
+html {
+  font-size: 62.5%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  font-family: var(--ff-primary);
+  font-weight: 500;
+  position: relative;
+}
+input,
+button{
+  font-family: inherit;
+}
+
+/*** Main Styles ***/
+.main {
+  width: 100vw;
+  min-height: 100vh;
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.game-name {
+  font-family: var(--ff-secondary);
+  font-size: 3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--clr-dark);
+  margin-bottom: 4rem;
+}
+.container {
+  width: min(55rem,95%);
+}
+.container__btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.container__btn {
+  border: none;
+  background-color: #eee;
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 1rem;
+  border-radius: 5px;
+  color: var(--clr-dark);
+}
+.game {
+  height: 35rem;
+  background-color: var(--clr-white);
+  padding: 0 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2rem 4rem rgba(0,0,0,0.2);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10rem;
+}
+.player {
+  flex: 50%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem 0 8rem 0;
+  position: relative;
+}
+#my-canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+}
+.player--winner #my-canvas {
+  visibility: visible;
+}
+.player__active-status {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: var(--clr-primary);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  opacity: 0;
+  transition: opacity 300ms;
+}
+.player--active .player__active-status {
+  opacity: 1;
+}
+.player__emoji {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.player__name {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: var(--clr-tertiary);
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.player__score {
+  font-size: 3.5rem;
+  margin-top: 1.5rem;
+  color: var(--clr-secondary);
+}
+.dice {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%,-50%);
+}
+.dice__img {
+  width: 5rem;
+  border-radius: 5px;
+  border: 1px solid var(--clr-primary);
+  transform: rotate(-360deg);
+  transition: all 300ms;
+}
+.rotate {
+  transform: rotate(360deg);
+}
+.current {
+  padding: 1.5rem;
+  margin-top: auto;
+  background-color: var(--clr-secondary);
+  border-radius: 5px;
+  text-align: center;
+  color: var(--clr-white);
+}
+.current.change--bg {
+  background-color: var(--clr-primary);
+}
+.current__text {
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+  letter-spacing: 1px;
+}
+.current__score {
+  font-size: 2rem;
+}
+/*** Hide Dice By Default ***/
+.hidden {
+  display: none;
+}
+.dice__text {
+  font-size: 3rem;
+}
+.game__btns {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.btn {
+  border: none;
+  padding: 1rem;
+  background-color: var(--clr-tertiary);
+  color: var(--clr-white);
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: .5rem;
+  transition: all 100ms;
+}
+.btn:active {
+  background-color: var(--clr-primary);
+}
+
+/****** Modals ******/
+.modal-overlay {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  transition: all 300ms;
+}
+.modal-overlay--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.modal {
+  width: min(35rem,90%);
+  background-color: var(--clr-white);
+  padding: 2rem;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 999;
+  text-align: center;
+  transition: all 300ms;
+}
+.modal__text {
+  font-size: 1.6rem;
+  color: var(--clr-tertiary);
+  margin-bottom: 3rem;
+  line-height: 1.5;
+}
+.modal__text b {
+  color: var(--clr-primary);
+}
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.modal__input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--clr-dark);
+  border: 2px solid var(--clr-secondary);
+  border-radius: 5px;
+  text-align: center;
+}
+.modal__btn {
+  padding: 1.3rem;
+  border: none;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  background-color: var(--clr-tertiary);
+  color: var(--clr-white);
+  border-radius: 5px;
+  word-spacing: 5px;
+  margin-top: 2rem;
+}
+.disable {
+  opacity: 0.7;
+}
+#user-btn {
+  display: none;
+}
+#user-btn.show {
+  display: initial;
+}
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
+}
+.rules__list {
+  font-size: 1.3rem;
+  color: var(--clr-dark);
+  line-height: 1.5;
+}
+.rules__list::marker {
+  color: var(--clr-primary);
+}
+.rules__list b {
+  color: var(--clr-primary);
+  text-transform: uppercase;
+}
+.modal--rules.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.modal--user.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
